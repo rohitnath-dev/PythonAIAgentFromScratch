@@ -1,9 +1,9 @@
 from dotenv import load_dotenv
 from pydantic import BaseModel
-from langchain_openai import ChatOpenAI
-from langchain_anthropic import ChatAnthropic
+from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
+import os
 from langchain.agents import create_tool_calling_agent, AgentExecutor
 from tools import (
     search_tool,
@@ -42,9 +42,14 @@ class ResearchResponse(BaseModel):
     review_summary: str
     common_issues: list[str]
     confidence: str
-    
 
-llm = ChatAnthropic(model="claude-3-5-sonnet-20241022")
+llm = ChatOpenAI(
+    model="qwen/qwen3-32b:free",   
+    api_key=os.getenv("OPENROUTER_API_KEY"),
+    base_url="https://openrouter.ai/api/v1",
+    temperature=0,
+)
+
 parser = PydanticOutputParser(pydantic_object=ResearchResponse)
 
 prompt = ChatPromptTemplate.from_messages(
@@ -151,7 +156,7 @@ agent = create_tool_calling_agent(
 )
 
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
-query = input("What can i help you research? ")
+query = input("What would you like to buy? ")
 raw_response = agent_executor.invoke({"query": query})
 
 try:
