@@ -36,6 +36,12 @@ class ResearchResponse(BaseModel):
 
     sources: list[str]
     tools_used: list[str]
+
+    price_range: str
+    best_store: str
+    review_summary: str
+    common_issues: list[str]
+    confidence: str
     
 
 llm = ChatAnthropic(model="claude-3-5-sonnet-20241022")
@@ -101,6 +107,16 @@ Never invent specifications.
 Always cite the source of factual claims.
 
 If information cannot be verified, clearly state that.
+
+Before answering:
+
+1. Use search_tool.
+2. Use reddit_reviews.
+3. Use expert_reviews.
+4. Use youtube_reviews.
+5. Use price_comparison.
+6. Use coupon_search if discounts are relevant.
+7. Use compare_products when multiple products are involved.
 
 Your final recommendation should be practical, unbiased, and based on evidence.
 
