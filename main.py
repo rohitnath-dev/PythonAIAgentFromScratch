@@ -13,7 +13,6 @@ from tools import (
     coupon_tool,
     expert_review_tool,
     compare_tool,
-    wiki_tool,
     save_tool,
 )
 
@@ -146,7 +145,6 @@ tools = [
     coupon_tool,
     expert_review_tool,
     compare_tool,
-    wiki_tool,
     save_tool,
 ]
 agent = create_tool_calling_agent(
